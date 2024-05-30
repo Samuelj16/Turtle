@@ -25,8 +25,10 @@ public class MainApp {
 
     public static void main(String[] args) {
         ArrayList<Shape> shapes = new ArrayList<>();
-        world = new World();
         Scanner scanner = new Scanner(System.in);
+        int[] size = getWorldCanvasSize(scanner);
+
+        world = new World(size[0], size[1]);
         boolean exited = false;
         int choice = -1;
         while(!exited){
@@ -49,15 +51,28 @@ public class MainApp {
             }
         }
         System.out.println("Good bye");
+        world.dispose();
+    }
 
-        //Square square = new Square(-100, -100, Color.BLACK, 5);
-        //square.paint();
-
-       // Triangle triangle = new Triangle(-100, -100, Color.BLACK, 5);
-       // triangle.paint();
-
-        //Hexagon hexagon = new Hexagon(-100, -100, Color.BLACK, 5);
-        //hexagon.paint();
+    private static int[] getWorldCanvasSize(Scanner scanner){
+        String sizeString = null;
+        boolean success = false;
+        int[] size = null;
+        do {
+            try {
+                System.out.println("What is your preferred canvas size (width,height)?");
+                //scanner.nextLine();// solve an issue with Scanner
+                sizeString = scanner.nextLine();
+                String[] ps = sizeString.split(",");
+                size = new int[]{Integer.parseInt(ps[0]),
+                        Integer.parseInt(ps[1])};
+                success = true;
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+                success = false;
+            }
+        } while(!success);
+        return size;
     }
 
     private static void openPainting(ArrayList<Shape> shapes, Scanner scanner) {
@@ -133,7 +148,7 @@ public class MainApp {
                                      Scanner scanner) {
         // Ask for the file name
         System.out.println("What's the file name to save into?");
-        scanner.nextLine();
+        scanner.nextLine();// to resolve the issues with Scanner
         String fileName = scanner.nextLine();
         // use String builder to build the lines that will be written to the file
         StringBuilder builder = new StringBuilder();
@@ -181,8 +196,18 @@ public class MainApp {
             shapeType = scanner.nextInt();
         } while(isShapeTypeInvalid(shapeType));
 
-        System.out.println("What is the border width?");
-        double border = scanner.nextDouble();
+        double border = 0.0;
+        boolean widthSuccess = false;
+        do {
+            System.out.println("What is the border width?");
+            try {
+                border = scanner.nextDouble();
+                widthSuccess = true;
+            } catch (Exception exception){
+                System.out.println(exception.getMessage());
+                widthSuccess = false;
+            }
+        } while(!widthSuccess);
         Color color = null;
         do {
             System.out.println("What is the border color?");
@@ -195,8 +220,9 @@ public class MainApp {
         int[] point = null;
         do {
             try {
-                System.out.println("What is the location of the shape (x,y)?");
-                scanner.nextLine();
+                scanner.nextLine();// solve an issue with Scanne
+                System.out.print("What is the location of the shape (x,y)?");
+                //scanner.nextLine();// solve an issue with Scanner
                 pointsString = scanner.nextLine();
                 String[] ps = pointsString.split(",");
                 point = new int[]{Integer.parseInt(ps[0]),
