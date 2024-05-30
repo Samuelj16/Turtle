@@ -1,0 +1,6 @@
+width, height,background
+1519,969,null
+shape,x,y,border,color,width,height
+triangle,100.0,100.0,5.0,YELLOW,200.0,200.0
+hexagon,0.0,100.0,3.0,BLUE,200.0,200.0
+square,0.0,0.0,6.0,BLACK,200.0,200.0
